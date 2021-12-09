@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title> <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+    rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="index.css">
+<script src="https://kit.fontawesome.com/6f0950ca48.js" crossorigin="anonymous"></script>
+<style>
+        h1{
+        text-align: center;
+        color: rgb(131, 63, 63);
+        margin-top: 5px;
+        margin-bottom: 15px;
+    }
+
+    #instructions{
+        border: 1px solid black;
+        width: 70%;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        line-height: 30px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    #p{
+        color: brown;
+        font-weight: bold;
+    }
+    #youtube{
+        /* border: 1px solid black; */
+        width: 20%;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+    }
+    i{
+        font-size: 30px;
+        color: red;
+        margin-right: 40px;
+        margin-left: 5px;
+    }
+    
+#recipeeInstr{
+    display: flex;
+    justify-content: center;
+    /* border: 1px solid black; */
+    align-items: center;
+    line-height: 20 px;
+    font-weight: bold;
+}
+
+#meal{
+    color: brown;
+    color: blue;
+    font-weight: bold;
+    font-size: 30px;
+}
+</style>
+</head>
+<body>
+    <div id="navBar"></div>
+    <h1>#searched item - <span id="meal"></span></h1>
+    <div id="container">
+        <div id="recipeePoster"></div>
+        <div id="recipeeInstr">
+            <i class="far fa-hand-point-left"></i>
+            Click On the Dish to get cooking details</div>
+    </div>
+    
+</body>
+</html>
+<script type="module">
+    let naVbar = document.getElementById("navBar");
+    import navbar from "/navbar.js";
+    import {getData,appendData} from "/data.js";
+    naVbar.innerHTML = navbar();
+    let data = JSON.parse(localStorage.getItem("searchItem"));
+    console.log(data)
+    let {idMeal,strMeal,strMealThumb} = data;
+
+    let recipeePoster = document.getElementById("recipeePoster")
+    let meal = document.getElementById("meal")
+    meal.textContent = strMeal
+
+    let url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
+    let otherdata = await getData(url);
+    
+    appendData(otherdata,recipeePoster,recipeeInstr);
+
+</script>

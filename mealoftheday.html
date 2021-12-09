@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="index.css">
+<script src="https://kit.fontawesome.com/6f0950ca48.js" crossorigin="anonymous"></script>
+</head>
+<style>
+    h1{
+        text-align: center;
+        color: rgb(131, 63, 63);
+        margin-top: 5px;
+        margin-bottom: 15px;
+    }
+
+    #instructions{
+        /* border: 1px solid black; */
+        width: 70%;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        line-height: 30px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    #p{
+        color: brown;
+        font-weight: bold;
+    }
+    #youtube{
+        /* border: 1px solid black; */
+        width: 20%;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+    }
+    i{
+        font-size: 30px;
+        color: red;
+        margin-right: 40px;
+        margin-left: 5px;
+    }
+    
+#recipeeInstr{
+    display: flex;
+    justify-content: space-evenly;
+    /* border: 1px solid black; */
+    align-items: center;
+    line-height: 20 px;
+    font-weight: bold;
+}
+
+#meal{
+    color: brown;
+    color: blue;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+</style>
+<body>
+    <div id="navBar"></div>
+    <h1>Recipee of the day - <span id="meal"></span></h1>
+    <div id="container">
+        <div id="recipeePoster"></div>
+        <div id="recipeeInstr"></div>
+    </div>
+    <div id="instructions">
+        <p id="p">Recipee Instructions</p>
+    </div>
+    <div id="youtube">YouTube <a class="utube" href=""><i class="fab fa-youtube"></i></a>
+        Site <a class="site" href=""><i class="fas fa-link"></i></a>
+    </div>
+</body>
+</html>
+<script type="module">
+import navbar from "/navbar.js"
+let object = JSON.parse(localStorage.getItem("strMealThumb"))
+let MeasureArr = JSON.parse(localStorage.getItem("Measure"))
+let IngredientsArr = JSON.parse(localStorage.getItem("Ingredients"))
+let navBar= document.getElementById("navBar")
+let {strInstructions,strMeal,strSource,strYoutube,strMealThumb} = object;
+
+navBar.innerHTML = navbar();
+
+
+let recipeePoster = document.getElementById("recipeePoster")
+let posterCont = document.createElement("img")
+posterCont.setAttribute("id","recipeeImg")
+posterCont.src = strMealThumb
+recipeePoster.append(posterCont);
+
+let meal = document.getElementById("meal")
+meal.textContent = strMeal
+let measureDiv = document.createElement("div");
+  measureDiv.setAttribute("id","measureDiv");
+
+  let ingredientsDiv = document.createElement("div");
+  ingredientsDiv.setAttribute( "id","ingredientsDiv");
+
+let Measure = [];
+for(let i = 0; i < 20; i++){
+    Measure[i] = document.createElement("P")
+}
+console.log(Measure);
+
+
+let Ingredients = [];
+for(let i = 0; i < 20; i++){
+    Ingredients[i] = document.createElement("p")
+}
+
+for(let i = 0; i < Measure.length; i++){
+
+    Measure[i].textContent = MeasureArr[i]
+}
+
+for(let i = 0; i < Ingredients.length; i++){
+    Ingredients[i].textContent = IngredientsArr[i]  
+}
+
+
+for(let i = 0; i < Ingredients.length; i++){
+    ingredientsDiv.append(Ingredients[i])
+  }
+
+
+  for(let i = 0; i < Measure.length; i++){
+    measureDiv.append(Measure[i])
+  } 
+ 
+  let recipeeInstr = document.getElementById("recipeeInstr")
+
+  let  instructions = document.getElementById("instructions")
+
+  let instr = document.createElement("p");
+  instr.textContent = strInstructions;
+
+  let utube = document.querySelector(".utube");
+  let site = document.querySelector(".site");
+
+  utube.href = strYoutube;
+  site.href = strSource
+
+instructions.append(instr)
+
+  recipeeInstr.append(ingredientsDiv,measureDiv)
+
+
+
+
+
+
+
+let home = document.getElementById("home")
+function goToHome(){
+    window.location.href = "index.html"
+}
+
+
+
+home.addEventListener("click",goToHome)
+</script>

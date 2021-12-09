@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+    rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="index.css">
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    #anothercontainer{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        /* border: 1px solid black; */
+        height: 100%;
+        gap: 10px;
+        width: 80%;
+        justify-content: center;
+        margin: auto;
+    }
+
+    #latestDiv{
+        width: 200px;
+        height: 300px;
+        /* border: 1px solid green; */
+        text-align: center;
+        cursor: pointer;
+    }
+
+    #latestImg{
+        width: 100%;
+        height: 80%;
+        object-fit: contain;
+    }
+    p{
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<body>
+    <div id="navBar"></div>
+    <div id="anothercontainer">
+    </div>
+</body>
+</html>
+<script type="module">
+    let anothercontainer = document.getElementById("anothercontainer")
+let navBar = document.getElementById("navBar");
+import navbar from "/navbar.js";
+navBar.innerHTML = navbar();
+// console.log(navbar)
+let url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken`
+
+let home = document.getElementById("home");
+home.addEventListener("click",goToHome)
+
+function goToHome(){
+    window.location.href = "index.html"
+}
+
+async function getData(url){
+    // console.log(url)
+    let res = await fetch(url);
+    let collect = await res.json();
+    let data = collect.meals;
+    // console.log(data)
+    localStorage.setItem("data",JSON.stringify(data))
+    displayData(data);
+}
+getData(url);
+function displayData(data){
+    console.log(data)
+    data.map(function(item){
+        let {strMeal,strMealThumb,idMeal} = item;
+        let latestDiv = document.createElement("div");
+        latestDiv.setAttribute("id","latestDiv")
+        let latestImg = document.createElement("img");
+        latestImg.setAttribute("id","latestImg")
+        let latestMeal = document.createElement("p");
+        
+        latestMeal.textContent = strMeal;
+        latestImg.src = strMealThumb;
+
+        latestDiv.append(latestImg,latestMeal);
+
+        anothercontainer.append(latestDiv)
+
+
+    })
+}
+
+
+</script>
